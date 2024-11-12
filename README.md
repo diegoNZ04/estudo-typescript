@@ -240,3 +240,132 @@ No geral, enuns podem também ser instanciados como tipos. Por exemplo:
 
 - `Unknown` é um tipo de dado que pode receber qualquer valor (numérico, caractere) mas permanece como desconhecido,
   não recebendo seu tipo de forma automática. No entanto, é capaz de receber o tip `any`.
+
+## Aula 11: Afirmação de tipos
+
+Para isso, vamos declarar algumas variáveis:
+
+```
+let nvalor: number;
+let svalor: string;
+let uvalor: unknown;
+```
+
+Tentando fazer com que a variável `nvalor`receba a variável `uvalor`, o sistema nos retorna erro.
+No entanto, é possível realizar a afirmação de tipo da seguinte maneira:
+
+```
+nvalor = <number>uvalor;
+```
+
+Executando o comando `console.log(typeof nvalor);`, o tipo `number` é retornado
+mesmo a variável tendo recebido outra de tipo `unknown`
+
+Para fazer o mesmo com valores `string`, deve ser usado os comandos de conversão:
+
+- `.toString()`: number -> string
+- `.parseInt()`: string -> number
+
+## Aula 12: Funções Parte 1
+
+PAra declarar declarar funções em TypeScript, usamos a estrutura:
+
+```
+function logar(user: string, password: string): void {
+  console.log(`User..: ${user}`);
+  console.log(`Password: ${password}`);
+}
+```
+
+Os tipos dos parâmetros devem ser especificados. Como no exemplo anterior, `user` e `password` são especificados com o tipo `string`.
+O tipo `void` determina que a função não deve ter um retorno.
+
+```
+function soma2(n1: number, n2: number): number {
+  let r: number = n1 + n2;
+  return r;
+}
+```
+
+Agora neste exemplo, a função foi recebida com o tipo `number`, o que deixa implícito um retorno de valor também `number`.
+
+## Aula 13: Funções Parte 2
+
+Vamos ver como colocar valores padrões e opcionais em parâmetros de funções.
+
+Para **valores padrões** deve ser implementados da seguinte forma:
+
+```
+function soma(n1: number = 0, n2: number = 0): number {
+  return n1 + n2;
+}
+```
+
+Assim, os valores `n1` e `n2` vão ser considerados como `0` caso outro valor não for passado.
+
+Para **valores opcionais** deve ser implementados da seguinte maneira:
+
+```
+function novoUser(user: string, pass: string, nome?: string): void {
+  console.log(`User..: ${user}`);
+  console.log(`Password: ${pass}`);
+  console.log(`Nome: ${nome}`);
+}
+```
+
+Com o operador `?` ao lado do parâmetro, ele se torna opcional. Ou seja, não há obrigação de ser passado, sendo apenas
+os parâmetros `user` e `pass` sendo exigidos.
+
+## Aula 14: Arrow Functions
+
+**Arrow Functions** é uma função anônima e é usada sempre quando não for preciso declarar uma função,
+como em funções que exigem callback (Map, Filter, Foreach, etc).
+Podem ser usadas no lugar de funções tradicionais, mas não sofrem efeito de _içamento_.
+
+```
+const teste = (): void => {
+  console.log("Teste");
+}
+```
+
+Sendo sua forma de chamada a mesma em que funções padrões: `teste()`
+
+Outro exemplo de **Arrow Function**:
+
+```
+const fsoma = (n: number[]): number => {
+    let s: number = 0;
+
+    n.forEach((e) => {
+        s += e;
+    })
+
+    return s;
+}
+```
+
+Dentro da lógica da função, o comando `forEach` recebeu uma **Arrow Function**
+como callback rebendo o parâmetro `e` (sem tipo especificado), representando cada elemento dentro do array
+e o somando com a variável `s`, representando a soma, que recebeu valor inicial `0`.
+
+## Aula 15: Parâmetros REST
+
+Parâmetros REST são implementados na seguinte forma em uma função:
+
+```
+function fsomaRest(...n: number[]) {
+    let s: number = 0;
+
+    for (let en of n) {
+        s += en;
+    }
+
+    // n.forEach((en) => {
+    //   s += en;
+    //})
+
+    return s;
+}
+```
+
+- `...n:number[]`: Dessa forma podemos passar múltiplos parâmetros na chamada da função
